@@ -42,35 +42,6 @@ class App extends Component {
     }
   }
 
-  componentDidMount() {
-    this.interval = setInterval(() => {
-      //change myUser.status: 'available', busy
-      const newStatus = Math.random() < 0.5 ? 'busy' : 'available';
-      //change myUser.place: 'on-campus' home-office
-      const newPlace = Math.random() < 0.5 ? 'home-office' : 'on-campus';
-
-      //update user in user list (in this demo myUser will always be in the position 0 of users)
-      let newUserList = [...this.state.users];
-      newUserList[0].status = newStatus;
-      newUserList[0].place = newPlace;
-
-      this.setState((state) => {
-        return {
-          myUser: {
-            ...state.myUser,
-            status: newStatus,
-            place: newPlace
-          },
-          users: newUserList
-        }
-      });
-    }, 5000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
-
   render() {
     return (
       <div className="App">
