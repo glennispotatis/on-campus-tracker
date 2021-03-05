@@ -6,6 +6,15 @@
     grid-template-rows: 76px;
 }
 
+.StatusButton:hover {
+    cursor: pointer;
+    transform: translate(1px, 1px);
+}
+
+.StatusButton:active .textContainer {
+    box-shadow: inset 0px 0px 5px 3px var(--color-bg-secondary-light);
+}
+
 .StatusButton .textContainer {
     background-color: var(--color-bg-secondary);
     grid-column: 1/3;
