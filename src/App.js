@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Switch, Link, Route } from 'react-router-dom';
 import './App.css';
 import Home from './components/home/Home';
 import UserList from './components/user-list/user-list';
+import NotFound from './components/NotFound';
 
 //only for testing purposes
 const busyHome = {
@@ -72,11 +74,24 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <p>This is the home component</p>
-        <Home user={this.state.myUser} onChangePlace={this.updateUserPlace} onChangeStatus={this.updateUserStatus} />
+        <Router>
+          <nav>
+            <Link to="/dashboard">Dashboard</Link>
+            <Link to="/">Home</Link>
+          </nav>
 
-        <p>This is the UserList</p>
-        <UserList users={this.state.users} />
+          <Switch >
+            <Route exact path="/dashboard">
+              <UserList users={this.state.users} />
+            </Route>
+            <Route exact path="/">
+              <Home user={this.state.myUser} onChangePlace={this.updateUserPlace} onChangeStatus={this.updateUserStatus} />
+            </Route>
+            <Route path="*">
+              <NotFound />
+            </Route>
+          </Switch>
+        </Router>
       </div>
     );
   }
