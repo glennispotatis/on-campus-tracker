@@ -9,6 +9,16 @@
     color: white;
 }
 
+.BigButton:hover {
+    cursor: pointer;
+    /* box-shadow: 1px 1px 5px var(--color-bg-secondary-light); */
+    transform: translate(1px, 1px);
+}
+
+.BigButton:active {
+    box-shadow: inset 0px 0px 5px 3px var(--color-bg-secondary-light);
+}
+
 .BigButton > p {
     text-transform: uppercase;
 }

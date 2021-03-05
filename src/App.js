@@ -40,20 +40,48 @@ class App extends Component {
     super(props);
     // posible values "available/busy and on-campus/home-office"
     this.state = {
-      myUser: busyHome
+      myUser: users[0],
+      users: users
     }
   }
+
+  componentDidMount() {
+    this.interval = setInterval(() => {
+      //change myUser.status: 'available', busy
+      const newStatus = Math.random() < 0.5 ? 'busy' : 'available';
+      //change myUser.place: 'on-campus' home-office
+      const newPlace = Math.random() < 0.5 ? 'home-office' : 'on-campus';
+
+      //update user in user list (in this demo myUser will always be in the position 0 of users)
+      let newUserList = [...this.state.users];
+      newUserList[0].status = newStatus;
+      newUserList[0].place = newPlace;
+
+      this.setState((state) => {
+        return {
+          myUser: {
+            ...state.myUser,
+            status: newStatus,
+            place: newPlace
+          },
+          users: newUserList
+        }
+      });
+
+    }, 5000);
+  }
+
   render() {
     const available = this.state.myUser.status === 'available';
     const onCampus = this.state.myUser.place === 'on-campus';
-    const config = {textWhenChecked: 'on-campus', textWhenUnchecked:'Home office'};
+    const config = { textWhenChecked: 'on-campus', textWhenUnchecked: 'Home office' };
     return (
       <div className="App">
-        <p>This is the BigButton</p>
-        <BigButton text={this.state.myUser.place} enabled={available}/>
-        
+        <p>This is the BigButton (always enabled if not part of a switch</p>
+        <BigButton text={this.state.myUser.place} />
+
         <p>This is the BigSwitch</p>
-        <BigSwitch config={config} checked={onCampus}/>
+        <BigSwitch config={config} checked={onCampus} onChange={this.updateUserPlace} />
 
         <p>This is the StatusButton</p>
         <StatusButton available={available} />
@@ -62,12 +90,30 @@ class App extends Component {
         <StatusImage available={available} onCampus={onCampus} />
 
         <p>This is the UserPreview</p>
-        <UserPreview user={this.state.myUser}/>
+        <UserPreview user={this.state.myUser} />
 
         <p>This is the UserList</p>
-        <UserList users={users}/>
+        <UserList users={users} />
       </div>
     );
+  }
+
+  updateUserPlace = (onCampus) => {
+    const place = onCampus ? 'on-campus' : 'home-office';
+    this.setState((state) => {
+
+      let newUserList = [...this.state.users];
+      //myUser is always in pos[0] in the demo. However, in real app this will not be true.
+      newUserList[0].place = place;
+
+      return {
+        myUser: {
+          ...state.myUser,
+          place
+        },
+        users: newUserList
+      }
+    });
   }
 }
 

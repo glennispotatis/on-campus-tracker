@@ -1,27 +1,37 @@
 import './big-switch.css';
+import React, { Component } from 'react';
 import BigButton from '../big-button/big-button';
 
-function BigSwitch(props) {
-    const {checked, config: {textWhenChecked, textWhenUnchecked}} = props;
-    return(
-        <div className="BigSwitch">
-            <BigButton text={textWhenChecked} enabled={checked}/>
-            <BigButton text={textWhenUnchecked} enabled={!checked}/>
-        </div>
-    );
+class BigSwitch extends Component {
+
+    handleOnClickFirstButton = (newValue) => {
+        this.updatEnabled(newValue);
+    }
+
+    handleOnClickSecondButton = (newValue) => {
+        this.updatEnabled(!newValue);
+    }
+
+    updatEnabled(newValue){
+        this.props.onChange(newValue);
+    }
+
+    render() {
+        const { checked, config: { textWhenChecked, textWhenUnchecked } } = this.props;
+
+        return (
+            <div className="BigSwitch">
+                <BigButton text={textWhenChecked} enabled={checked} onClick={this.handleOnClickFirstButton}/>
+                <BigButton text={textWhenUnchecked} enabled={!checked} onClick={this.handleOnClickSecondButton}/>
+            </div>
+        );
+    }
 }
 
 BigSwitch.defaultProps = {
-    config: {textWhenChecked: 'on-campus', textWhenUnchecked:'Home office'},
-    checked: true
+    config: { textWhenChecked: 'on-campus', textWhenUnchecked: 'Home office' },
+    checked: true,
+    onChange: ()=>{console.log('<BigSwitch> onChange')}
 };
-
-/*
-<BigSwitch config={} checked={true}/>
-Config: {textWhenChecked: “on-campus”, textWhenUnchecked:”Home office”}  
-Composed by 2 <BigButton/>
-Only 1 <BigButton/> can be clicked
-Distance between buttons 20px
-*/
 
 export default BigSwitch;
